@@ -1,0 +1,9 @@
+*.tmp
+
+# Idea
+*.iml
+*.iws
+*.ipr
+.idea
+
+
