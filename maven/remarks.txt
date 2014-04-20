@@ -1,0 +1,201 @@
+
+Maven remarks
+Hibernate Annotations Processor:
+http://mvnrepository.com/artifact/org.hibernate/hibernate-validator-annotation-processor/4.2.0.Final
+
+Install/Deploy JAR
+
+               = JAR =
+           mvn install:install-file -Dfile=./extras/google/gcm/gcm-server/dist/gcm-server.jar -DgroupId=com.google.android -DartifactId=gcm-server -Dversion=1.0.0 -Dpackaging=jar
+               = Sources =
+           mvn install:install-file -Dfile=./extras/google/gcm/gcm-server/dist/gcm-server-src.jar -DgroupId=com.google.android -DartifactId=gcm-server -Dversion=1.0.0 -Dpackaging=java-source -DgeneratePom=false
+
+           Deploy:
+
+               = JAR =
+           mvn deploy:deploy-file -Dfile=./extras/google/gcm/gcm-server/dist/gcm-server.jar -DgroupId=com.google.android -DartifactId=gcm-server -Dversion=1.0.0 -Dpackaging=jar -DrepositoryId=yota-releases-repository -Durl=http://artifactory.yotalab.ru/artifactory/libs-release-local
+               = Sources =
+           mvn deploy:deploy-file -Dfile=./extras/google/gcm/gcm-server/dist/gcm-server-src.jar -DgroupId=com.google.android -DartifactId=gcm-server -Dversion=1.0.0 -Dpackaging=java-source -DgeneratePom=false -DrepositoryId=yota-releases-repository -Durl=http://artifactory.yotalab.ru/artifactory/libs-release-local
+Maven
+Simple App:
+
+mvn archetype:generate -DarchetypeGroupId=com.truward.maven.archetypes -DarchetypeArtifactId=simple-app -DarchetypeVersion=1.0 -DgroupId=org.gnu -DartifactId=oximuron -Dversion=1.0-SNAPSHOT -DarchetypeRepository=https://github.com/avshabanov/maven-repo/raw/master/libs-release
+
+run: mvn exec:java -Dexec.mainClass=org.gnu.App
+
+
+Spring Web App:
+
+mvn archetype:generate -DarchetypeGroupId=com.truward.maven.archetypes -DarchetypeArtifactId=spring-web-app -DarchetypeVersion=1.1 -DgroupId=org.gnu.web -DartifactId=oximuron -Dversion=1.0-SNAPSHOT -DarchetypeRepository=https://github.com/avshabanov/maven-repo/raw/master/libs-release
+
+
+Spring Secured Web App:
+
+mvn archetype:generate -DarchetypeGroupId=com.truward.maven.archetypes -DarchetypeArtifactId=spring-sec-web-app -DarchetypeVersion=1.0 -DgroupId=org.gnu.web -DartifactId=oximuron -Dversion=1.0-SNAPSHOT -DarchetypeRepository=https://github.com/avshabanov/maven-repo/raw/master/libs-release
+
+
+Spring Service:
+
+mvn archetype:generate -DarchetypeGroupId=com.truward.maven.archetypes -DarchetypeArtifactId=spring-lib -DarchetypeVersion=1.1 -DgroupId=com.alexshabanov.proxytest -DartifactId=proxy-test -Dversion=1.0-SNAPSHOT -DarchetypeRepository=https://github.com/avshabanov/maven-repo/raw/master/libs-release
+
+Sample Maven Root Project
+This is a sample root maven project:
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.alexshabanov</groupId>
+    <artifactId>app-root</artifactId>
+    <version>1.0-ROOT-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>App Project Root</name>
+    <description>Root of the My Application project.</description>
+
+    <modules>
+       <module>child-app</module>
+    </modules>
+
+    <properties>
+       <qdsl.version>1.0.0-SNAPSHOT</qdsl.version>
+
+       <!-- logging -->
+       <slf4j.version>1.6.1</slf4j.version>
+       <commons-logging.version>1.1.1</commons-logging.version>
+
+
+       <!--  compiler settings -->
+       <maven.compiler.source>1.6</maven.compiler.source>
+       <maven.compiler.target>1.6</maven.compiler.target>
+
+       <!-- encoding -->
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencyManagement>
+
+       <dependencies>
+           <!-- Logging -->
+           <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+               <version>${slf4j.version}</version>
+           </dependency>
+           <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-log4j12</artifactId>
+               <version>${slf4j.version}</version>
+           </dependency>
+           <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-jdk14</artifactId>
+               <version>${slf4j.version}</version>
+           </dependency>
+           <!-- No commons logging -->
+           <dependency>
+               <groupId>commons-logging</groupId>
+               <artifactId>commons-logging</artifactId>
+               <version>${commons-logging.version}</version>
+               <scope>provided</scope>
+           </dependency>
+           <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>jcl-over-slf4j</artifactId>
+               <version>${slf4j.version}</version>
+           </dependency>
+
+
+
+           <!-- Test scope -->
+           <dependency>
+               <groupId>junit</groupId>
+               <artifactId>junit</artifactId>
+               <version>4.8.2</version>
+               <scope>test</scope>
+           </dependency>
+           <dependency>
+               <groupId>org.easymock</groupId>
+               <artifactId>easymock</artifactId>
+               <version>3.0</version>
+               <scope>test</scope>
+           </dependency>
+       </dependencies>
+    </dependencyManagement>
+
+    <build>
+       <pluginManagement>
+           <plugins>
+               <!-- Clean plugin -->
+               <plugin>
+                   <artifactId>maven-clean-plugin</artifactId>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <version>2.2</version>
+               </plugin>
+
+               <!-- Dependencies plugin -->
+               <plugin>
+                   <artifactId>maven-dependency-plugin</artifactId>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <version>2.2</version>
+               </plugin>
+           </plugins>
+       </pluginManagement>
+    </build>
+</project>
+
+child project shall include:
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+       <artifactId>app-root</artifactId>
+       <groupId>com.alexshabanov</groupId>
+       <version>1.0-ROOT-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.truward.qdsl</groupId>
+    <artifactId>qdsl</artifactId>
+    <version>${qdsl.version}</version>
+    <packaging>jar</packaging>
+    <name>QDSL</name>
+
+
+    <dependencies>
+       <!-- test scope -->
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.easymock</groupId>
+           <artifactId>easymock</artifactId>
+       </dependency>
+    </dependencies>
+</project>
+
+Maven Tricks
+
+Build project and its dependencies: 
+mvn clean install –projects B –also-make 
+
+
+
+Build selected projects: 
+mvn install -pl myproj-domain,myproj-service -DskipTests=true
+
+
+
+
+Install specific artifact: 
+mvn dependency:get -DgroupId=org.clojure -DartifactId=clojure -Dversion=1.6.0
+
+
+
+TBD
+
